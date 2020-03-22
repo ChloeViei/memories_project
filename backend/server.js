@@ -1,28 +1,47 @@
+let express = require('express');
+let path = require('path');
+let cors = require('cors');
+let bodyParser = require('body-parser');
+let dbConfig = require('./database/db');
+let mongoose = require('mongoose');
 
-// set up ========================
-var express  = require('express');
-var app      = express();                        // create our app w/ express
-var mongoose = require('mongoose');              // mongoose for mongodb
-var morgan   = require('morgan');                // log requests to the console (express4)
-var bodyParser = require('body-parser');         // pull information from HTML POST (express4)
-var methodOverride = require('method-override'); // simulate DELETE and PUT (express4)
-var database = require('./config/database');
-var port     = process.env.PORT || 8888;         // set the port
+// Connecting with mongo db
+mongoose.Promise = global.Promise;
+mongoose.connect(dbConfig.db, {
+    useNewUrlParser: true
+}).then(() => {
+        console.log('Database sucessfully connected')
+    },
+    error => {
+        console.log('Database could not connected: ' + error)
+    }
+)
+// Setting up port with express js
+const memoryRoute = require('../backend/routes/memory.route');
+const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
+app.use(cors());
+app.use(express.static(path.join(__dirname, 'dist/memoriesApp')));
+app.use('/', express.static(path.join(__dirname, 'dist/memoriesApp')));
+app.use('/api', memoryRoute);
 
+// Create port
+const port = process.env.PORT || 4000;
+const server = app.listen(port, () => {
+    console.log('Connected to port ' + port)
+})
 
-// configuration ===============================================================
-mongoose.connect(database.url);     // connect to mongoDB database on modulus.io
+// Find 404 and hand over to error handler
+app.use((req, res, next) => {
+    next(createError(404));
+});
 
-app.use('/app', express.static(__dirname + '/app'));                // set the static files location /public/img will be /img for users
-app.use(morgan('dev'));                                         // log every request to the console
-app.use(bodyParser.urlencoded({'extended':'true'}));            // parse application/x-www-form-urlencoded
-app.use(bodyParser.json());                                     // parse application/json
-app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
-app.use(methodOverride());
-
-// routes ======================================================================
-require('./app/routes.js')(app);
-
-// listen (start app with node server.js) ======================================
-app.listen(port);
-console.log("App listening on port : " + port);
+// error handler
+app.use(function (err, req, res, next) {
+    console.error(err.message); // Log error message in our server's console
+    if (!err.statusCode) err.statusCode = 500; // If err has no specified error code, set error code to 'Internal Server Error (500)'
+    res.status(err.statusCode).send(err.message); // All HTTP requests must have a response, so let's send back an error with its status code and message
+});
