@@ -4,9 +4,9 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 @Component({
-  selector: 'app-employee-create',
-  templateUrl: './employee-create.component.html',
-  styleUrls: ['./employee-create.component.css']
+  selector: 'app-memory-create',
+  templateUrl: './memory-create.component.html',
+  styleUrls: ['./memory-create.component.css']
 })
 
 export class MemoryCreateComponent implements OnInit {
@@ -54,7 +54,7 @@ export class MemoryCreateComponent implements OnInit {
       this.apiService.createMemory(this.memoryForm.value).subscribe(
         (res) => {
           console.log('Employee successfully created!')
-          this.ngZone.run(() => this.router.navigateByUrl('/employees-list'))
+          this.ngZone.run(() => this.router.navigateByUrl('/memories-list'))
         }, (error) => {
           console.log(error);
         });

@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { MemoryCreateComponent } from './components/memory-create/memory-create.component';
 import { MemoryEditComponent } from './components/memory-edit/memory-edit.component';
 import { MemoryListComponent } from './components/memory-list/memory-list.component';
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { MemoryListComponent } from './components/memory-list/memory-list.compon
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [ApiService],
   bootstrap: [AppComponent]

@@ -48,7 +48,7 @@ export class ApiService {
   }
 
   // Delete employee
-  deleteEmployee(id): Observable<any> {
+  deleteMemory(id): Observable<any> {
     let url = `${this.baseUri}/delete/${id}`;
     return this.http.delete(url, { headers: this.headers }).pipe(
       catchError(this.errorMgmt)
