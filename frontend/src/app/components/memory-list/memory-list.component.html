@@ -22,7 +22,7 @@
       <td>{{memory.type}}</td>
       <td>{{memory.date}}</td>
       <td class="text-center edit-block">
-          <span class="edit" [routerLink]="['/edit-employee/', memory._id]">
+          <span class="edit" [routerLink]="['/edit-memory/', memory._id]">
             <button type="button" class="btn btn-success btn-sm">Edit</button>
           </span>
         <span class="delete" (click)="removeMemory(memory, i)">
