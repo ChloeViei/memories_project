@@ -5,10 +5,15 @@
   "projects": {
     "frontend": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "changeDetection": "OnPush",
+          "style": "scss"
+        }
+      },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "trans",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -19,14 +24,8 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.css"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles-app-loading.scss", "src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -47,14 +46,29 @@
               "buildOptimizer": true,
               "budgets": [
                 {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
+                  "type": "bundle",
+                  "name": "polyfills",
+                  "baseline": "150kb",
+                  "maximumWarning": "50kb",
+                  "maximumError": "100kb"
+                },
+                {
+                  "type": "bundle",
+                  "name": "styles",
+                  "baseline": "280kb",
+                  "maximumWarning": "50kb",
+                  "maximumError": "100kb"
+                },
+                {
+                  "type": "bundle",
+                  "name": "main",
+                  "baseline": "1024kb",
+                  "maximumWarning": "100kb",
+                  "maximumError": "200kb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "6kb"
                 }
               ]
             }
@@ -84,14 +98,19 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.css"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles-app-loading.scss", "src/styles.scss"],
             "scripts": []
+          },
+          "configurations": {
+            "test": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.test.ts"
+                }
+              ]
+            }
           }
         },
         "lint": {
@@ -99,12 +118,10 @@
           "options": {
             "tsConfig": [
               "tsconfig.app.json",
-              "tsconfig.spec.json",
+              "/tsconfig.spec.json",
               "e2e/tsconfig.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "e2e": {

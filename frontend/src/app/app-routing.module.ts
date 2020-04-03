@@ -1,20 +1,49 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
-import {MemoryCreateComponent} from "./components/memory-create/memory-create.component";
-import {MemoryEditComponent} from "./components/memory-edit/memory-edit.component";
-import {MemoryListComponent} from "./components/memory-list/memory-list.component";
-
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule, PreloadAllModules } from "@angular/router";
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'create-employee' },
-  { path: 'create-memory', component: MemoryCreateComponent },
-  { path: 'edit-memory/:id', component: MemoryEditComponent },
-  { path: 'memories-list', component: MemoryListComponent }
+  {
+    path: "",
+    redirectTo: "about",
+    pathMatch: "full"
+  },
+  {
+    path: "about",
+    loadChildren: () =>
+      import("./features/about/about.module").then(m => m.AboutModule)
+  },
+  {
+    path: "feature-list",
+    loadChildren: () =>
+      import("./features/feature-list/feature-list.module").then(
+        m => m.FeatureListModule
+      )
+  },
+  {
+    path: "settings",
+    loadChildren: () =>
+      import("./features/settings/settings.module").then(m => m.SettingsModule)
+  },
+  {
+    path: "perso",
+    loadChildren: () =>
+      import("./features/perso/perso.module").then(m => m.PersoModule)
+  },
+  {
+    path: "**",
+    redirectTo: "about"
+  }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  // useHash supports github.io demo page, remove in your app
+  imports: [
+    RouterModule.forRoot(routes, {
+      useHash: true,
+      scrollPositionRestoration: "enabled",
+      preloadingStrategy: PreloadAllModules
+    })
+  ],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

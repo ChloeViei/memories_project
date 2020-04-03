@@ -1,35 +1,44 @@
-import { TestBed, async } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { AppComponent } from './app.component';
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { TestBed, async } from "@angular/core/testing";
+import { RouterTestingModule } from "@angular/router/testing";
+import { TranslateModule } from "@ngx-translate/core";
+import { MockStore, provideMockStore } from "@ngrx/store/testing";
 
-describe('AppComponent', () => {
+import {
+  selectEffectiveTheme,
+  selectIsAuthenticated,
+  selectSettingsLanguage,
+  selectSettingsStickyHeader
+} from "./core/core.module";
+import { SharedModule } from "./shared/shared.module";
+
+import { AppComponent } from "./app.component";
+
+describe("AppComponent", () => {
+  let store: MockStore;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        SharedModule,
+        RouterTestingModule,
+        NoopAnimationsModule,
+        TranslateModule.forRoot()
       ],
-      declarations: [
-        AppComponent
-      ],
+      providers: [provideMockStore()],
+      declarations: [AppComponent]
     }).compileComponents();
+
+    store = TestBed.inject(MockStore);
+    store.overrideSelector(selectIsAuthenticated, false);
+    store.overrideSelector(selectSettingsStickyHeader, true);
+    store.overrideSelector(selectSettingsLanguage, "fr");
+    store.overrideSelector(selectEffectiveTheme, "default");
   }));
 
-  it('should create the app', () => {
+  it("should create the app", async(() => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
+    const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
-  });
-
-  it(`should have as title 'frontend'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('frontend');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('frontend app is running!');
-  });
+  }));
 });

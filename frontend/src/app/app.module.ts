@@ -1,29 +1,25 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { NgModule } from "@angular/core";
 
-import { ApiService } from './service/api.service';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { MemoryCreateComponent } from './components/memory-create/memory-create.component';
-import { MemoryEditComponent } from './components/memory-edit/memory-edit.component';
-import { MemoryListComponent } from './components/memory-list/memory-list.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import { CoreModule } from "./core/core.module";
+
+import { AppRoutingModule } from "./app-routing.module";
+import { AppComponent } from "./app.component";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    MemoryCreateComponent,
-    MemoryEditComponent,
-    MemoryListComponent
-  ],
   imports: [
+    // angular
+    BrowserAnimationsModule,
     BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    ReactiveFormsModule
+
+    // core
+    CoreModule,
+
+    // app
+    AppRoutingModule
   ],
-  providers: [ApiService],
+  declarations: [AppComponent],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
