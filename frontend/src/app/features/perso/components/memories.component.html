@@ -4,14 +4,14 @@
     <div class="col-md-6">
       <h2>{{ "trans.perso.memories.subtitle1" | translate }}</h2>
       <mat-card
-        *ngFor="let memory of books$ | async"
+        *ngFor="let memory of memories$ | async"
         [ngClass]="routeAnimationsElements"
         (click)="select(memory)"
       >
         <h3>{{ memory.title }}</h3>
         <small>{{ memory.author }}</small>
       </mat-card>
-      <p *ngIf="(books$ | async)?.length === 0">
+      <p *ngIf="(memories$ | async)?.length === 0">
         {{ "trans.perso.memories.empty" | translate }}
       </p>
       <button
@@ -30,17 +30,17 @@
       <span class="d-flex justify-content-between">
         <h2>{{ "trans.perso.memories.subtitle2" | translate }}</h2>
         <span class="d-flex justify-content-end">
-          <span *ngIf="selectedBook$ | async as selectedBook">
+          <span *ngIf="selectedMemory$ | async as selectedMemory">
             <button mat-icon-button color="accent" *ngIf="!isEditing">
               <fa-icon
                 icon="edit"
-                (click)="edit(selectedBook)"
+                (click)="edit(selectedMemory)"
                 [matTooltip]="'trans.perso.memories.tooltip.edit' | translate"
                 matTooltipPosition="above"
               >
               </fa-icon>
             </button>
-            <button mat-icon-button color="warn" (click)="delete(selectedBook)">
+            <button mat-icon-button color="warn" (click)="delete(selectedMemory)">
               <fa-icon
                 icon="trash"
                 [matTooltip]="'trans.perso.memories.tooltip.delete' | translate"
@@ -134,7 +134,7 @@
         <div
           [ngClass]="routeAnimationsElements"
           *ngIf="
-            selectedBook$ | async as selectedMemory;
+            selectedMemory$ | async as selectedMemory;
             else noSelectedMemoryTmpl
           "
         >

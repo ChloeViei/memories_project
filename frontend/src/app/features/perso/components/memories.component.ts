@@ -1,5 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { Router } from "@angular/router";
+import { ApiService } from "../../../service/api.service"
 import { FormBuilder } from "@angular/forms";
 import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { Store, select } from "@ngrx/store";
@@ -9,14 +10,8 @@ import { ROUTE_ANIMATIONS_ELEMENTS } from "../../../core/core.module";
 
 import { State } from "../perso.state";
 import { Memory } from "../model/memories.model";
-import {
-  actionMemoriesDeleteOne,
-  actionMemoriesUpsertOne
-} from "../memories/memories.actions";
-import {
-  selectSelectedMemory,
-  selectAllMemories
-} from "../memories/memories.selectors";
+import { actionMemoriesDeleteOne, actionMemoriesUpsertOne } from "../memories/memories.actions";
+import { selectSelectedMemory, selectAllMemories } from "../memories/memories.selectors";
 
 @Component({
   selector: "trans-memories",
@@ -24,14 +19,14 @@ import {
   styleUrls: ["./memories.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
+
 export class MemoriesComponent {
+
   routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
 
   memoryFormGroup = this.fb.group(MemoriesComponent.createMemory());
-  books$: Observable<Memory[]> = this.store.pipe(select(selectAllMemories));
-  selectedBook$: Observable<Memory> = this.store.pipe(
-    select(selectSelectedMemory)
-  );
+  memories$: Observable<Memory[]> = this.store.pipe(select(selectAllMemories));
+  selectedMemory$: Observable<Memory> = this.store.pipe(select(selectSelectedMemory));
 
   isEditing: boolean;
 
@@ -47,7 +42,8 @@ export class MemoriesComponent {
   constructor(
     public store: Store<State>,
     public fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private apiService: ApiService
   ) {}
 
   select(memory: Memory) {

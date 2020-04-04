@@ -6,10 +6,7 @@ import { tap, withLatestFrom } from "rxjs/operators";
 import { LocalStorageService } from "../../../core/core.module";
 
 import { State } from "../perso.state";
-import {
-  actionMemoriesDeleteOne,
-  actionMemoriesUpsertOne
-} from "./memories.actions";
+import { actionMemoriesDeleteOne, actionMemoriesUpsertOne } from "./memories.actions";
 import { selectMemories } from "./memories.selectors";
 
 export const MEMORIES_KEY = "PERSO_MEMORIES";

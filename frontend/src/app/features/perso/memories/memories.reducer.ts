@@ -1,10 +1,7 @@
 import { createEntityAdapter, EntityAdapter } from "@ngrx/entity";
 
 import { Memory, MemoryState } from "../model/memories.model";
-import {
-  actionMemoriesDeleteOne,
-  actionMemoriesUpsertOne
-} from "./memories.actions";
+import { actionMemoriesDeleteOne, actionMemoriesUpsertOne } from "./memories.actions";
 import { Action, createReducer, on } from "@ngrx/store";
 
 export function sortByTitle(a: Memory, b: Memory): number {

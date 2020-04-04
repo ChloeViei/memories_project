@@ -17,7 +17,7 @@
     "format:test": "prettier projects/**/*.{ts,json,md,scss} --list-different",
     "release": "standard-version && git push --follow-tags origin master",
     "analyze": "npm run build:prod -- --stats-json && webpack-bundle-analyzer ./dist/frontend/stats-es2015.json",
-    "server": "node ../backend/server.js"
+    "server": "node ../backend/src/server.js"
   },
   "husky": {
     "hooks": {

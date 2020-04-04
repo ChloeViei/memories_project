@@ -15,14 +15,16 @@ mongoose.connect(dbConfig.db, {
     error => {
         console.log('Database could not connected: ' + error)
     }
-)
+);
+
 // Setting up port with express js
-const memoryRoute = require('../backend/routes/memory.route');
+const memoryRoute = require('./routes/memoriesApi');
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: false
 }));
+
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'dist/memoriesApp')));
 app.use('/', express.static(path.join(__dirname, 'dist/memoriesApp')));
@@ -32,7 +34,7 @@ app.use('/api', memoryRoute);
 const port = process.env.PORT || 4000;
 const server = app.listen(port, () => {
     console.log('Connected to port ' + port)
-})
+});
 
 // Find 404 and hand over to error handler
 app.use((req, res, next) => {

@@ -1,28 +1,28 @@
-import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
 
-import { ExamplesComponent } from "./examples.component";
-import { MemoriesComponent } from "./components/memories.component";
+import { ExamplesComponent } from './examples.component';
+import { MemoriesComponent } from './components/memories.component';
 
 const routes: Routes = [
   {
-    path: "",
+    path: '',
     component: ExamplesComponent,
     children: [
       {
-        path: "",
-        redirectTo: "memories",
-        pathMatch: "full"
+        path: '',
+        redirectTo: 'memories',
+        pathMatch: 'full'
       },
       {
-        path: "memories",
-        redirectTo: "memories/",
-        pathMatch: "full"
+        path: 'memories',
+        redirectTo: 'memories/',
+        pathMatch: 'full'
       },
       {
-        path: "memories/:id",
+        path: 'memories/:id',
         component: MemoriesComponent,
-        data: { title: "trans.menu.perso.memories" }
+        data: { title: 'trans.menu.perso.memories' }
       }
     ]
   }
