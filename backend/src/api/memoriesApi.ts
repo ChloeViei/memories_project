@@ -2,7 +2,7 @@
 // express
 import { NextFunction, Response, Request, Router } from "express";
 // model
-import {Memory, MemoryModel} from "../models/memory"
+import {Memory, IMemory} from "../models/memory"
 
 
 /**
@@ -167,7 +167,7 @@ export class MemoriesApi {
             }
 
             // save memory
-            Object.assign(memory, req.body).save().then((memory: MemoryModel) => {
+            Object.assign(memory, req.body).save().then((memory: IMemory) => {
                 res.json(memory.toObject());
                 next();
             }).catch(next);

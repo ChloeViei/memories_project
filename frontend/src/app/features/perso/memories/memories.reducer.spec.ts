@@ -1,4 +1,4 @@
-import { MemoryState } from "../model/memories.model";
+import { MemoryState } from "../../../model/memories.model";
 import { memoryReducer, initialState } from "./memories.reducer";
 import {
   actionMemoriesDeleteOne,

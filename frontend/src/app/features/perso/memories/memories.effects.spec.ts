@@ -5,7 +5,7 @@ import { TestScheduler } from "rxjs/testing";
 
 import { LocalStorageService } from "../../../core/core.module";
 
-import { MemoryState } from "../model/memories.model";
+import { MemoryState } from "../../../model/memories.model";
 import { Actions, getEffectsMetadata } from "@ngrx/effects";
 import { MemoriesEffects, MEMORIES_KEY } from "./memories.effects";
 import {

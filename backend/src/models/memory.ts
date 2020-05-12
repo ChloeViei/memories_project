@@ -1,10 +1,39 @@
-import mongoose = require("mongoose");
-import { Document, Model } from "mongoose";
-import { Memory as MemoryInterface} from "../interfaces/memory"
-import { memorySchema } from "../Schemas/memory";
+import { Document } from 'mongoose';
+import * as mongoose from 'mongoose';
 
-export interface MemoryModel extends MemoryInterface, Document {}
+export interface IMemory extends Document{
+    title?: string;
+    author?: string;
+    text?: string;
+    type?: string;
+    date?: string;
+}
 
-export interface MemoryModelStatic extends Model<MemoryModel> {}
+const Schema = mongoose.Schema;
 
-export const Memory = mongoose.model<MemoryModel, MemoryModelStatic>("Memory", memorySchema);
+const MemorySchema = new Schema({
+    createdAt: { type: Date, default: Date.now },
+    title: {
+        type: String,
+        required: true
+    },
+    author: {
+        type: String,
+        required: true
+    },
+    text: {
+        type: String,
+        required: true
+    },
+    type: {
+        type: String,
+        required: true
+    },
+    date: {
+        type: Date,
+        required: true
+    }
+});
+
+
+export const Memory = mongoose.model<IMemory>("Memory", MemorySchema);

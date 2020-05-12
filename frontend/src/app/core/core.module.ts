@@ -49,15 +49,12 @@ import { AnimationsService } from "./animations/animations.service";
 import { AppErrorHandler } from "./error-handler/app-error-handler.service";
 import { CustomSerializer } from "./router/custom-serializer";
 import { LocalStorageService } from "./local-storage/local-storage.service";
+import { MemoriesService} from "./services/memories.service";
 import { HttpErrorInterceptor } from "./http-interceptors/http-error.interceptor";
 import { GoogleAnalyticsEffects } from "./google-analytics/google-analytics.effects";
 import { NotificationService } from "./notifications/notification.service";
 import { SettingsEffects } from "./settings/settings.effects";
-import {
-  selectSettingsLanguage,
-  selectEffectiveTheme,
-  selectSettingsStickyHeader
-} from "./settings/settings.selectors";
+import { selectSettingsLanguage, selectEffectiveTheme, selectSettingsStickyHeader } from "./settings/settings.selectors";
 import { MatButtonModule } from "@angular/material/button";
 import {
   faCog,
@@ -83,6 +80,7 @@ export {
   routeAnimations,
   AppState,
   LocalStorageService,
+  MemoriesService,
   selectIsAuthenticated,
   ROUTE_ANIMATIONS_ELEMENTS,
   AnimationsService,

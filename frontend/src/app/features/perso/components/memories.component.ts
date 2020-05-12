@@ -9,9 +9,11 @@ import { Observable } from "rxjs";
 import { ROUTE_ANIMATIONS_ELEMENTS } from "../../../core/core.module";
 
 import { State } from "../perso.state";
-import { Memory } from "../model/memories.model";
+import { Memories } from "../../../model/memories.model";
+import {Memory} from "../../../model/memory";
+import { MemoriesService} from "../../../core/core.module";
 import { actionMemoriesDeleteOne, actionMemoriesUpsertOne } from "../memories/memories.actions";
-import { selectSelectedMemory, selectAllMemories } from "../memories/memories.selectors";
+// import { selectSelectedMemory, selectAllMemories } from "../memories/memories.selectors";
 
 @Component({
   selector: "trans-memories",
@@ -25,14 +27,14 @@ export class MemoriesComponent {
   routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
 
   memoryFormGroup = this.fb.group(MemoriesComponent.createMemory());
-  memories$: Observable<Memory[]> = this.store.pipe(select(selectAllMemories));
-  selectedMemory$: Observable<Memory> = this.store.pipe(select(selectSelectedMemory));
+  memories$: Observable<Memory[]> = this.memoriesService.list();
+  // selectedMemory$: Observable<Memory> = this.store.pipe(select(selectSelectedMemory));
 
   isEditing: boolean;
 
   static createMemory(): Memory {
     return {
-      id: uuid(),
+      _id: uuid(),
       title: "",
       author: "",
       text: ""
@@ -43,12 +45,13 @@ export class MemoriesComponent {
     public store: Store<State>,
     public fb: FormBuilder,
     private router: Router,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private memoriesService: MemoriesService
   ) {}
 
   select(memory: Memory) {
     this.isEditing = false;
-    this.router.navigate(["perso/memories", memory.id]);
+    this.router.navigate(["perso/memories", memory._id]);
   }
 
   deselect() {
@@ -71,8 +74,8 @@ export class MemoriesComponent {
     this.isEditing = false;
   }
 
-  delete(book: Memory) {
-    this.store.dispatch(actionMemoriesDeleteOne({ id: book.id }));
+  delete(memory: Memory) {
+    this.store.dispatch(actionMemoriesDeleteOne({ id: memory._id }));
     this.isEditing = false;
     this.router.navigate(["perso/memories"]);
   }
@@ -82,7 +85,7 @@ export class MemoriesComponent {
       const memory = this.memoryFormGroup.value;
       this.store.dispatch(actionMemoriesUpsertOne({ memory: memory }));
       this.isEditing = false;
-      this.router.navigate(["perso/memories", memory.id]);
+      this.router.navigate(["perso/memories", memory._id]);
     }
   }
 }

@@ -1,10 +1,11 @@
-import { createEntityAdapter, EntityAdapter } from "@ngrx/entity";
+import {createEntityAdapter, EntityAdapter} from "@ngrx/entity";
 
-import { Memory, MemoryState } from "../model/memories.model";
-import { actionMemoriesDeleteOne, actionMemoriesUpsertOne } from "./memories.actions";
-import { Action, createReducer, on } from "@ngrx/store";
+import {Memories} from "../../../model/memories.model";
+import {MemoriesActions, memoriesActionsTypes} from "./memories.actions";
+import {Memory} from "../../../model/memory";
+import {Action} from "@ngrx/store";
 
-export function sortByTitle(a: Memory, b: Memory): number {
+export function sortByTitle(a: Memories, b: Memories): number {
   return a.title.localeCompare(b.title);
 }
 
@@ -14,29 +15,76 @@ export const memoryAdapter: EntityAdapter<Memory> = createEntityAdapter<Memory>(
   }
 );
 
-export const initialState: MemoryState = memoryAdapter.getInitialState({
-  ids: ["123"],
-  entities: {
-    "123": {
-      id: "123",
-      title: "Reactive Programming with Angular and ngrx",
-      author: "Oren Farhi",
-      text:
-        "Learn to Harness the Power of Reactive Programming with RxJS and ngrx Extensions"
-    }
+export interface MemoryState {
+  error?: Error,
+  memory?: Memory,
+  memories: Memory[];
+}
+
+export const initialState: MemoryState = {
+  memories: []
+};
+
+export function reducer(state = initialState, action: MemoriesActions): MemoryState {
+  switch (action.type) {
+
+    case memoriesActionsTypes.CREATE_MEMORY:
+      return { ...state, ...{
+          error: undefined,
+          memory: undefined
+        }};
+
+    case memoriesActionsTypes.CREATE_MEMORY_ERROR:
+      return { ...state, ...{
+          error: action.payload.error
+        }};
+
+    case memoriesActionsTypes.CREATE_MEMORY_SUCCESS:
+      return { ...state, ...{
+          memory: action.payload.memory,
+          memories: (state.memories === undefined) ? [action.payload.memory] : [ ...state.memories, action.payload.memory ]
+        }};
+
+    case memoriesActionsTypes.LOAD_MEMORIES:
+      return { ...state, ...{
+          error: undefined,
+          memories: []
+        }};
+
+    case memoriesActionsTypes.LOAD_MEMORIES_ERROR:
+      return { ...state, ...{
+          error: action.payload.error
+        }};
+
+    case memoriesActionsTypes.LOAD_MEMORIES_SUCCESS:
+      return { ...state, ...{
+          memories: action.payload.memories
+        }};
+
+    case memoriesActionsTypes.REMOVE_MEMORY:
+      return { ...state, ...{
+          error: undefined,
+          memory: action.payload.memory
+        }};
+
+    case memoriesActionsTypes.REMOVE_MEMORY_ERROR:
+      return { ...state, ...{
+          error: action.payload.error
+        }};
+
+    case memoriesActionsTypes.REMOVE_MEMORY_SUCCESS:
+      return { ...state, ...{
+          memories: [ ...state.memories].filter(memory => memory._id !== action.payload.memory._id)
+        }};
+
+    default:
+      return state;
   }
-});
+}
 
-const reducer = createReducer(
-  initialState,
-  on(actionMemoriesUpsertOne, (state, { memory }) =>
-    memoryAdapter.upsertOne(memory, state)
-  ),
-  on(actionMemoriesDeleteOne, (state, { id }) =>
-    memoryAdapter.removeOne(id, state)
-  )
-);
+export const getMemories = (state: MemoryState) => state.memories;
 
-export function memoryReducer(state: MemoryState | undefined, action: Action) {
+
+export function memoryReducer(state: MemoryState | undefined, action: MemoriesActions) {
   return reducer(state, action);
 }
