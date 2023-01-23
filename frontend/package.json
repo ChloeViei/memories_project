@@ -67,11 +67,11 @@
     "@angular/http": "latest"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.900.1",
+    "@angular-devkit/build-angular": "~15.1.2",
     "@angular/cli": "~9.0.1",
     "@angular/compiler-cli": "~9.0.0",
     "@angular/language-service": "~9.0.0",
-    "@commitlint/cli": "^8.3.5",
+    "@commitlint/cli": "^17.4.2",
     "@commitlint/config-conventional": "^8.3.4",
     "@types/jasmine": "~3.5.3",
     "@types/jasminewd2": "^2.0.8",
@@ -94,7 +94,7 @@
     "pretty-quick": "^2.0.1",
     "protractor": "^5.4.3",
     "rimraf": "^3.0.2",
-    "standard-version": "^7.1.0",
+    "standard-version": "^9.5.0",
     "ts-node": "~8.6.2",
     "tslint": "~6.0.0",
     "typescript": "~3.7.5",
